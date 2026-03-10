@@ -11,6 +11,7 @@ export interface RecipeFormData {
   city: string;
   country: string;
   video_url: string;
+  description: string;
   body: string;
   published: boolean;
   cover_image_path?: string | null;
@@ -69,6 +70,7 @@ export async function saveRecipe(
     lat,
     lng,
     video_url: formData.video_url.trim() || null,
+    description: formData.description.trim() || null,
     body: formData.body || null,
     published: formData.published,
     cover_image_path: formData.cover_image_path ?? null,

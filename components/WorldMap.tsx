@@ -298,16 +298,28 @@ export default function WorldMap({ pins }: Props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPin]);
 
-  // ── Fetch AI dish info when a pin is clicked ────────────────────────────────
+  // ── Fetch dish info when a pin is clicked ───────────────────────────────────
+  // If Will has written a description on the recipe, use it directly.
+  // Otherwise fall back to the AI route.
   useEffect(() => {
     if (!selectedPin) {
       setDishInfo(null);
       return;
     }
 
+    // Will's own description — no AI needed
+    if (selectedPin.description?.trim()) {
+      setDishInfo({
+        loading: false,
+        description: selectedPin.description.trim(),
+        cost: null,
+      });
+      return;
+    }
+
     const title = selectedPin.title;
 
-    // Serve from cache if available
+    // Serve AI result from cache if available
     if (dishCacheRef.current.has(title)) {
       const cached = dishCacheRef.current.get(title)!;
       setDishInfo({ loading: false, ...cached });
@@ -326,11 +338,7 @@ export default function WorldMap({ pins }: Props) {
           cost: (data.cost as string | null) ?? null,
         };
         dishCacheRef.current.set(title, result);
-        setDishInfo({
-          loading: false,
-          ...result,
-          error: data.error ?? null,
-        });
+        setDishInfo({ loading: false, ...result, error: data.error ?? null });
       })
       .catch(() => {
         if (!cancelled)

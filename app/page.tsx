@@ -9,7 +9,7 @@ export default async function Home() {
 
   const { data: recipes } = await supabase
     .from("recipes")
-    .select("id, slug, title, location_name, city, country, lat, lng, cover_image_path, published")
+    .select("id, slug, title, location_name, city, country, lat, lng, description, cover_image_path, published")
     .eq("published", true)
     .order("created_at", { ascending: false });
 

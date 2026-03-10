@@ -33,6 +33,7 @@ export default function RecipeForm({ recipe }: Props) {
   const [city, setCity] = useState(recipe?.city ?? "");
   const [country, setCountry] = useState(recipe?.country ?? "");
   const [videoUrl, setVideoUrl] = useState(recipe?.video_url ?? "");
+  const [description, setDescription] = useState(recipe?.description ?? "");
   const [body, setBody] = useState(recipe?.body ?? "");
   const [published, setPublished] = useState(recipe?.published ?? false);
   const [coverPath, setCoverPath] = useState<string | null>(
@@ -97,6 +98,7 @@ export default function RecipeForm({ recipe }: Props) {
       city,
       country,
       video_url: videoUrl,
+      description,
       body,
       published,
       cover_image_path: coverPath,
@@ -302,6 +304,30 @@ export default function RecipeForm({ recipe }: Props) {
         </button>
         <p className="text-xs mt-1" style={{ color: "#555" }}>
           Max 2MB. JPG, PNG, or WebP.
+        </p>
+      </div>
+
+      {/* Short dish description (shown on map pin sidebar) */}
+      <div>
+        <label className="block text-sm font-medium mb-1.5" style={{ color: "#ccc" }}>
+          Dish Description
+        </label>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows={3}
+          placeholder="A short description of the dish — shown on the map when someone clicks the pin…"
+          className="w-full px-3 py-2.5 rounded-lg text-sm outline-none resize-none"
+          style={{
+            background: "#0f0f0f",
+            border: "1px solid #2e2e2e",
+            color: "#f5f0e8",
+            lineHeight: 1.6,
+          }}
+        />
+        <p className="text-xs mt-1" style={{ color: "#555" }}>
+          2–3 sentences about what makes this dish special. Shown on the map pin panel.
+          Leave blank to show an AI-generated description instead.
         </p>
       </div>
 

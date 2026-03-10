@@ -8,6 +8,7 @@ export interface Recipe {
   lat: number | null;
   lng: number | null;
   video_url: string | null;
+  description: string | null;
   body: string | null;
   cover_image_path: string | null;
   published: boolean;
@@ -25,6 +26,7 @@ export interface RecipePin {
   lat: number;
   lng: number;
   cover_image_path: string | null;
+  description: string | null;
 }
 
 /**
@@ -66,6 +68,7 @@ export function computeRecipePins(recipes: Recipe[]): RecipePin[] {
         lat,
         lng,
         cover_image_path: recipe.cover_image_path,
+        description: recipe.description ?? null,
       });
     });
   }

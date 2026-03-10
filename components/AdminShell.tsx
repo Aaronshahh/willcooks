@@ -50,6 +50,13 @@ export default function AdminShell({
           >
             + New Recipe
           </Link>
+          <Link
+            href="/admin/countries"
+            className="text-sm font-medium transition-colors hover:opacity-80"
+            style={{ color: pathname.startsWith("/admin/countries") ? "#e8a838" : "#aaa" }}
+          >
+            Countries
+          </Link>
         </div>
         <div className="flex items-center gap-3">
           <Link

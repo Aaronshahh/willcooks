@@ -15,6 +15,7 @@ create table if not exists public.recipes (
   lat           double precision,
   lng           double precision,
   video_url     text,
+  description   text,
   body          text,
   cover_image_path text,
   published     boolean not null default false,
@@ -49,7 +50,31 @@ create policy "Authenticated users have full access"
   using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
--- 5. Storage bucket (run in SQL or create via Dashboard → Storage)
+-- 5. Countries table (Will's hand-written cuisine descriptions per country)
+create table if not exists public.countries (
+  id          uuid primary key default uuid_generate_v4(),
+  name        text unique not null,
+  description text not null default '',
+  created_at  timestamptz not null default now(),
+  updated_at  timestamptz not null default now()
+);
+
+create or replace trigger countries_updated_at
+  before update on public.countries
+  for each row execute procedure public.set_updated_at();
+
+alter table public.countries enable row level security;
+
+create policy "Public can read countries"
+  on public.countries for select
+  using (true);
+
+create policy "Authenticated users can manage countries"
+  on public.countries for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
+-- 6. Storage bucket (run in SQL or create via Dashboard → Storage)
 -- Dashboard: Storage → New bucket → name: "recipe-covers" → Public: true
 -- Or via SQL:
 insert into storage.buckets (id, name, public)
