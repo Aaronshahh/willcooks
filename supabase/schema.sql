@@ -74,7 +74,28 @@ create policy "Authenticated users can manage countries"
   using (auth.role() = 'authenticated')
   with check (auth.role() = 'authenticated');
 
--- 6. Storage bucket (run in SQL or create via Dashboard → Storage)
+-- 7. Subscribers table (email list for recipe update notifications)
+create table if not exists public.subscribers (
+  id         uuid primary key default uuid_generate_v4(),
+  email      text unique not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.subscribers enable row level security;
+
+create policy "Anyone can subscribe"
+  on public.subscribers for insert
+  with check (true);
+
+create policy "Authenticated users can view subscribers"
+  on public.subscribers for select
+  using (auth.role() = 'authenticated');
+
+create policy "Authenticated users can delete subscribers"
+  on public.subscribers for delete
+  using (auth.role() = 'authenticated');
+
+-- 8. Storage bucket (run in SQL or create via Dashboard → Storage)
 -- Dashboard: Storage → New bucket → name: "recipe-covers" → Public: true
 -- Or via SQL:
 insert into storage.buckets (id, name, public)

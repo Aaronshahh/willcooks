@@ -5,6 +5,7 @@ import type { RecipePin } from "@/lib/recipes";
 import { getCoverImageUrl } from "@/lib/recipes";
 import Image from "next/image";
 import SearchPanel from "@/components/SearchPanel";
+import SubscribeWidget from "@/components/SubscribeWidget";
 
 interface Props {
   pins: RecipePin[];
@@ -562,6 +563,14 @@ export default function WorldMap({ pins }: Props) {
           </div>
         </div>
       )}
+
+      {/* ── Subscribe widget (bottom-centre) ── */}
+      <div
+        className="absolute z-30 flex justify-center"
+        style={{ bottom: 32, left: "50%", transform: "translateX(-50%)", pointerEvents: "auto" }}
+      >
+        <SubscribeWidget />
+      </div>
 
       {/* ── Magnifying glass toggle button (bottom-left) ── */}
       <button

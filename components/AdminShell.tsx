@@ -57,6 +57,13 @@ export default function AdminShell({
           >
             Countries
           </Link>
+          <Link
+            href="/admin/subscribers"
+            className="text-sm font-medium transition-colors hover:opacity-80"
+            style={{ color: pathname.startsWith("/admin/subscribers") ? "#e8a838" : "#aaa" }}
+          >
+            Subscribers
+          </Link>
         </div>
         <div className="flex items-center gap-3">
           <Link
